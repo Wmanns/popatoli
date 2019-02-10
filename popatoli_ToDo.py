@@ -5,12 +5,15 @@
 # popatoli_ToDo.py
 #
 # pocket-paper-ToDo-list aka 'popatoli'!
+# or if oyu prefer
+# paper-pocket-ToDo-list aka 'papotoli'!
+#
 # Use with scribus to create a pocket-paper-ToDo-list.
 #
 # Not quick but really dirty and really bad programming!
 #
-# Works with: 
-#	Scribus 1.5.4 
+# Works with:
+#	Scribus 1.5.4
 #	Language German (!)
 # 	Ignore error messages.
 #
@@ -40,9 +43,9 @@ paper_format = PAPER_A4
 
 
 def make_document():
-#	newDocument(PAPER_A4, (0.0  , 0.0  , 0.0  , 0.0  ), LANDSCAPE, 1, UNIT_MILLIMETERS, PAGE_1, 0, 1) 
+#	newDocument(PAPER_A4, (0.0  , 0.0  , 0.0  , 0.0  ), LANDSCAPE, 1, UNIT_MILLIMETERS, PAGE_1, 0, 1)
 #	play arround with marigins to fit size to your printer ...
-	newDocument(PAPER_A4, (4.111, 4.111, 4.111, 4.111), LANDSCAPE, 1, UNIT_MILLIMETERS, PAGE_1, 0, 1) 
+	newDocument(PAPER_A4, (4.111, 4.111, 4.111, 4.111), LANDSCAPE, 1, UNIT_MILLIMETERS, PAGE_1, 0, 1)
 	setInfo("author", "popatoli", "pocket-paper-ToDo-list")
 	lr, rr, tr, br = 0.0, 0.0, 0.0, 0.0
 	setMargins(lr, rr, tr, br)
@@ -61,31 +64,31 @@ def main(argv):
 	#
 	x1, y1, x2, y2 = pg_height // 4 , 0, pg_height // 4 , pg_width
 	hrz_line_1 = createLine(x1, y1, x2, y2, 'hrz_line_1')
-	setLineWidth(line_width, 'hrz_line_1') 
+	setLineWidth(line_width, 'hrz_line_1')
 	#
 	x1, y1, x2, y2 = pg_height // 2 , 0, pg_height // 2 , pg_width
 	hrz_line_2 = createLine(x1, y1, x2, y2, 'hrz_line_2')
-	setLineWidth(line_width, 'hrz_line_2') 
+	setLineWidth(line_width, 'hrz_line_2')
 	#
 	x1, y1, x2, y2 = pg_height - (pg_height // 4) , 0, pg_height - (pg_height // 4) , pg_width
 	hrz_line_3 = createLine(x1, y1, x2, y2, 'hrz_line_3')
-	setLineWidth(line_width, 'hrz_line_3') 
+	setLineWidth(line_width, 'hrz_line_3')
 	#
 	x1, y1, x2, y2 = 0, pg_width // 2 , pg_height // 4, pg_width // 2
 	vrt_line_1 = createLine(x1, y1, x2, y2, 'vrt_line_1')
-	setLineWidth(line_width, 'vrt_line_1') 
+	setLineWidth(line_width, 'vrt_line_1')
 	#
 	x1, y1, x2, y2 = pg_height // 4, pg_width // 2, pg_height - (pg_height // 4), pg_width // 2
 	vrt_line_2 = createLine(x1, y1, x2, y2, 'vrt_line_2')
-	setLineWidth(line_width, 'vrt_line_2') 
-	setLineStyle(LINE_DOT, 'vrt_line_2') 
+	setLineWidth(line_width, 'vrt_line_2')
+	setLineStyle(LINE_DOT, 'vrt_line_2')
 	#
 	x1, y1, x2, y2 = pg_height - (pg_height // 4), pg_width // 2, pg_height , pg_width // 2
 	vrt_line_3 = createLine(x1, y1, x2, y2, 'vrt_line_3')
-	setLineWidth(line_width, 'vrt_line_3') 
+	setLineWidth(line_width, 'vrt_line_3')
 	#
 	# Text - Head
-	# 
+	#
 	head_height= pg_width // 19
 	head_width = ((pg_height // 4) * 93 ) // 100
 	dx = 8
@@ -96,28 +99,28 @@ def main(argv):
 	setFont("Calibri Bold", head_1)
 	font_size = 66
 	setFontSize(font_size, head_1)
-	# insertText("  ToDo", -1, head_1) 
+	# insertText("  ToDo", -1, head_1)
 	# Underline Text - Head
-	head_line_1 = createLine(x + 2, y  + head_height - dy, x - 2 + head_width, y + head_height - dy, 'head_line_1')  # head_line_1 
-	setLineWidth(8, head_line_1) 
-	setLineCap(CAP_ROUND, head_line_1) 
+	head_line_1 = createLine(x + 2, y  + head_height - dy, x - 2 + head_width, y + head_height - dy, 'head_line_1')  # head_line_1
+	setLineWidth(8, head_line_1)
+	setLineCap(CAP_ROUND, head_line_1)
 	#
 	# Text - Body
 	#
 	dy2 = head_height + (dy // 3) * 2
-	body_width  = head_width 
+	body_width  = head_width
 	body_height = head_height * 8
 	body_height = ((pg_width // 2) * 8 ) // 10
-	body_1 = createText(x, y + dy2, body_width, body_height, 'body_1')  # body_1 
+	body_1 = createText(x, y + dy2, body_width, body_height, 'body_1')  # body_1
 	setFont("Calibri Bold", body_1)
 	font_size = 69
 	setFontSize(font_size, body_1)
 	setLineSpacing(font_size, body_1)
-	
-	insertText("· ", -1, body_1) 
+
+	insertText("· ", -1, body_1)
 	for i in range(8):
-		# insertText("\n· " + str (i+2), -1, body_1) 
-		insertText("\n· ", -1, body_1) 
+		# insertText("\n· " + str (i+2), -1, body_1)
+		insertText("\n· ", -1, body_1)
 	#
 	# Text - Body - Corner
 	# horizontal line
@@ -127,28 +130,28 @@ def main(argv):
 	right_corner_y = y + head_height - dy  + body_height
 	right_corner_y = y + head_height       + body_height
 	bottom_line_horz = createLine(right_corner_x - 80, right_corner_y , right_corner_x, right_corner_y, 'bottom_line_horz')  # bottom_line: horizontal
-	setLineWidth(setLineWidth_corner, bottom_line_horz) 
-	setLineCap(CAP_ROUND, bottom_line_horz) 
+	setLineWidth(setLineWidth_corner, bottom_line_horz)
+	setLineCap(CAP_ROUND, bottom_line_horz)
 	#
 	# vertical line
 	bottom_line_vert = createLine(right_corner_x, right_corner_y, right_corner_x, right_corner_y - 40, 'bottom_line_vert')  # bottom_line: vertical
-	setLineWidth(setLineWidth_corner, bottom_line_vert) 
-	setLineCap(CAP_ROUND, bottom_line_vert) 
+	setLineWidth(setLineWidth_corner, bottom_line_vert)
+	setLineCap(CAP_ROUND, bottom_line_vert)
 	#
 	#
 	# Copy this object 7 times
 	#
 	#
 	groupObjects([head_1, head_line_1, body_1, bottom_line_horz, bottom_line_vert])
-	selectObject('Gruppe1') 
+	selectObject('Gruppe1')
 	dpl = duplicateObject()
 	moveObject((pg_height // 4), 0)
 	#
-	selectObject('Gruppe1') 
+	selectObject('Gruppe1')
 	dpl = duplicateObject()
 	moveObject((pg_height // 4), 0)
 	#
-	selectObject('Gruppe1') 
+	selectObject('Gruppe1')
 	dpl = duplicateObject()
 	moveObject((pg_height // 4), 0)
 	#
@@ -156,10 +159,10 @@ def main(argv):
 	#
 	unGroupObject('Gruppe1')
 	selectObject(head_1)
-	#insertText("  ToDo", -1, head_1) 
+	#insertText("  ToDo", -1, head_1)
 	#
 	groupObjects([head_1, head_line_1, body_1, bottom_line_horz, bottom_line_vert])
-	selectObject('Gruppe5') 
+	selectObject('Gruppe5')
 	dpl = duplicateObject('Gruppe5')
 	rotateObject(180.0)
 	moveObject(head_width, 0)
@@ -178,7 +181,7 @@ def main(argv):
 	#
 	unGroupObject('Gruppe5')
 	selectObject(head_1)
-	insertText("  ToDo", -1, head_1) 
+	insertText("  ToDo", -1, head_1)
 
 
 
@@ -206,5 +209,3 @@ def main_wrapper(argv):
 
 if __name__ == '__main__':
 	main_wrapper(sys.argv)
-	
-	
