@@ -277,7 +277,7 @@ def main(argv):
     setNewName("Field_1", 'Gruppe1')
     #
     set_title(field_name="Field_4", title_text="  ToDo", objects_list = objects_list)
-    set_title(field_name="Field_1", title_text="  Faire les Courses", objects_list = objects_list)
+    set_title(field_name="Field_1", title_text="  Faire les courses", objects_list = objects_list)
     set_title(field_name="Field_8", title_text="  Clara", objects_list = objects_list)
     #
     set_text(field_name="Field_5", body_text="  Rundsägeblatt", objects_list = objects_list)
