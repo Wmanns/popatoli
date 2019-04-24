@@ -60,6 +60,12 @@ def make_folding_lines(pg_height, pg_width):
     hrz_line_2 = createLine(x1, y1, x2, y2, 'hrz_line_2')
     setLineWidth(line_width, 'hrz_line_2')
     #
+    # marker = createText(x1, y1, 30, 30, 'marker')  # title
+    # setFont("Calibri Bold", marker)
+    # fontsize = 44
+    # setFontSize(fontsize, marker)
+    # insertText(r" H", -1, marker)
+    #
     x1, y1, x2, y2 = pg_height - (pg_height // 4) , 0, pg_height - (pg_height // 4) , pg_width
     hrz_line_3 = createLine(x1, y1, x2, y2, 'hrz_line_3')
     setLineWidth(line_width, 'hrz_line_3')
@@ -80,6 +86,19 @@ def make_folding_lines(pg_height, pg_width):
     objects_list = [hrz_line_1, hrz_line_2, hrz_line_3, vrt_line_1, vrt_line_2, vrt_line_3 ]
     tmp_name = groupObjects(objects_list)
     setNewName("Folding_lines", tmp_name)
+    #
+
+def make_folding_marker(pg_height, pg_width):
+    #
+    x1, y1 = pg_height // 2 , 0
+    folding_marker = createText(x1, y1, 30, 30, 'folding_marker')  # title
+    setFont("Calibri Bold", folding_marker)
+    fontsize = 44
+    setFontSize(fontsize, folding_marker)
+    insertText(r" H", -1, folding_marker)
+    #
+    # tmp_name = groupObjects([folding_marker])
+    # setNewName("Folding_marker", tmp_name)
     #
 
 def make_single_field(pg_height, pg_width, title_height, title_width, dx, dy):
@@ -202,7 +221,6 @@ def add_text(field_name, body_text, objects_list):
     #
 
 
-
 def main(argv):
     """This is a documentation string. """
     if haveDoc():
@@ -217,7 +235,7 @@ def main(argv):
     dx                  =  8
     dy                  = 12
     #
-    #objects_list = [title, title_line_1, body_1, bottom_line_horz, bottom_line_vert]
+    # objects_list = [title, title_line_1, body_1, bottom_line_horz, bottom_line_vert]
     objects_list = make_single_field(pg_height, pg_width, title_height, title_width, dx, dy)
     #
     # Copy this object 7 times
@@ -258,14 +276,15 @@ def main(argv):
     #
     setNewName("Field_1", 'Gruppe1')
     #
-    set_title(field_name="Field_1", title_text="  ToDo", objects_list = objects_list)
-    set_title(field_name="Field_3", title_text="  Faire les Courses", objects_list = objects_list)
-    set_title(field_name="Field_5", title_text="  Clara", objects_list = objects_list)
+    set_title(field_name="Field_4", title_text="  ToDo", objects_list = objects_list)
+    set_title(field_name="Field_1", title_text="  Faire les Courses", objects_list = objects_list)
+    set_title(field_name="Field_8", title_text="  Clara", objects_list = objects_list)
     #
-    set_text(field_name="Field_8", body_text="  Rundsägeblatt", objects_list = objects_list)
-    add_text(field_name="Field_8", body_text="  Halogenlampe 20 W G9 230 V", objects_list = objects_list)
+    set_text(field_name="Field_5", body_text="  Rundsägeblatt", objects_list = objects_list)
+    add_text(field_name="Field_5", body_text="  Halogenlampe 20 W G9 230 V", objects_list = objects_list)
     #
     make_folding_lines(pg_height, pg_width)
+    make_folding_marker(pg_height, pg_width)
     #
     scribus.messageBox("ok","everything ok.",scribus.ICON_WARNING,scribus.BUTTON_OK)
     #
