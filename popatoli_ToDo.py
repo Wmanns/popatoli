@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+# https://github.com/Wmanns/popatoli
 
 
 # popatoli_ToDo.py
@@ -8,9 +9,9 @@
 #   if you prefer
 # paper-pocket-ToDo-list aka 'papotoli'!
 #
-# Use with scribus to create a pocket-paper-ToDo-list.
+# Use scribus to create a pocket-paper-ToDo-list.
 #
-# Not quick but really dirty and really bad programming!
+# Not quick but dirty programming!
 #
 # Works with:
 #    Scribus 1.5.4
@@ -31,7 +32,6 @@
 import sys
 
 try:
-#    import scribus
     from scribus import *  # I know ...
 except ImportError,err:
     print "This Python script is written for the Scribus scripting interface."
@@ -93,14 +93,14 @@ def make_single_field(pg_height, pg_width, title_height, title_width, dx, dy):
     x  = dx + 0 * (pg_height // 4)                # pg_height, pg_width = 842.0 595.0
     y  = dy + pg_width // 2
     #
-    title_1 = createText(x, y, title_width, title_height, 'title_1')  # title_1
-    setFont("Calibri Bold", title_1)
+    title = createText(x, y, title_width, title_height, 'title')  # title
+    setFont("Calibri Bold", title)
     font_size = 66
-    setFontSize(font_size, title_1)
+    setFontSize(font_size, title)
     # Underline Text - Head
-    title_line_1 = createLine(x + 2, y  + title_height - dy, x - 2 + title_width, y + title_height - dy, 'title_line_1')  # title_line_1
-    setLineWidth(8, title_line_1)
-    setLineCap(CAP_ROUND, title_line_1)
+    title_line = createLine(x + 2, y  + title_height - dy, x - 2 + title_width, y + title_height - dy, 'title_line')  # title_line
+    setLineWidth(8, title_line)
+    setLineCap(CAP_ROUND, title_line)
     #
     # Text - Body
     #
@@ -108,18 +108,18 @@ def make_single_field(pg_height, pg_width, title_height, title_width, dx, dy):
     body_width  = title_width
     body_height = title_height * 8
     body_height = ((pg_width // 2) * 8 ) // 10
-    body_1 = createText(x, y + dy2, body_width, body_height, 'body_1')  # body_1
-    setFont("Calibri Bold", body_1)
+    body = createText(x, y + dy2, body_width, body_height, 'body')  # body
+    setFont("Calibri Bold", body)
     font_size = 69
-    setFontSize(font_size, body_1)
-    setLineSpacing(font_size, body_1)
+    setFontSize(font_size, body)
+    setLineSpacing(font_size, body)
     #
     # insert points
     #
-    insertText(r"· ", -1, body_1)
+    insertText(r"· ", -1, body)
     for i in range(8):
-        # insertText("\n· " + str (i+2), -1, body_1)
-        insertText("\n· ", -1, body_1)
+        # insertText("\n· " + str (i+2), -1, body)
+        insertText("\n· ", -1, body)
     #
     # Text - Body - Corner
     # horizontal line
@@ -137,21 +137,71 @@ def make_single_field(pg_height, pg_width, title_height, title_width, dx, dy):
     setLineWidth(setLineWidth_corner, bottom_line_vert)
     setLineCap(CAP_ROUND, bottom_line_vert)
     #
-    objects_list = [title_1, title_line_1, body_1, bottom_line_horz, bottom_line_vert]
+    objects_list = [title, title_line, body, bottom_line_horz, bottom_line_vert]
     return objects_list
     #
 
 def set_title(field_name, title_text, objects_list):
-    """ set titleline title of a single field """
+    """ set title title of a single field """
     #
     selectObject(field_name)
     unGroupObject(field_name)
-    selectObject("title_1")
-    insertText(title_text, -1, "title_1")
+    selectObject("title")
+    insertText(title_text, -1, "title")
     deselectAll()
     tmp_name = groupObjects(objects_list)
     setNewName(field_name, tmp_name)
     #
+
+def set_text(field_name, body_text, objects_list):
+    """ set title title of a single field """
+    #
+    selectObject(field_name)
+    unGroupObject(field_name)
+    #selectObject("body")
+    deleteText("body")
+    #
+    setFont("Calibri Bold", "body")
+    font_size = 40
+    setFontSize(font_size, "body")
+    setLineSpacing(font_size, "body")
+    #
+    # insert text
+    # insertText(r"· ", -1, body)
+    # for i in range(8):
+    #     # insertText("\n· " + str (i+2), -1, body)
+    #     insertText("\n· ", -1, body)
+
+    insertText("\n· " + body_text, -1, "body")
+    deselectAll()
+    tmp_name = groupObjects(objects_list)
+    setNewName(field_name, tmp_name)
+    #
+
+def add_text(field_name, body_text, objects_list):
+    """ set title title of a single field """
+    #
+    selectObject(field_name)
+    unGroupObject(field_name)
+    #
+    # setFont("Calibri Bold", "body")
+    # font_size = 48
+    # setFontSize(font_size, "body")
+    # setLineSpacing(font_size, "body")
+    #
+    # insert text
+    # insertText(r"· ", -1, body)
+    # for i in range(8):
+    #     # insertText("\n· " + str (i+2), -1, body)
+    #     insertText("\n· ", -1, body)
+    
+    insertText("\n· " + body_text, -1, "body")
+    deselectAll()
+    tmp_name = groupObjects(objects_list)
+    setNewName(field_name, tmp_name)
+    #
+
+
 
 def main(argv):
     """This is a documentation string. """
@@ -167,7 +217,7 @@ def main(argv):
     dx                  =  8
     dy                  = 12
     #
-    #objects_list = [title_1, title_line_1, body_1, bottom_line_horz, bottom_line_vert]
+    #objects_list = [title, title_line_1, body_1, bottom_line_horz, bottom_line_vert]
     objects_list = make_single_field(pg_height, pg_width, title_height, title_width, dx, dy)
     #
     # Copy this object 7 times
@@ -212,7 +262,12 @@ def main(argv):
     set_title(field_name="Field_3", title_text="  Faire les Courses", objects_list = objects_list)
     set_title(field_name="Field_5", title_text="  Clara", objects_list = objects_list)
     #
+    set_text(field_name="Field_8", body_text="  Rundsägeblatt", objects_list = objects_list)
+    add_text(field_name="Field_8", body_text="  Halogenlampe 20 W G9 230 V", objects_list = objects_list)
+    #
     make_folding_lines(pg_height, pg_width)
+    #
+    scribus.messageBox("ok","everything ok.",scribus.ICON_WARNING,scribus.BUTTON_OK)
     #
 
 
