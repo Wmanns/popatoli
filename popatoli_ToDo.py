@@ -24,11 +24,7 @@
 # - it doesn't like void lines within functions => a void line has to be a comment.
 # - it doesn't like tabs (at least no mixture of tabs and spaces).
 #
-# ToDo: rename: 
-#          title_1         -> title
-#          titleline       -> title_line
-#          make_titleline  -> set_title
-#          title_height, title_width,  -> ....
+# ToDo:
 #       function to set text within body.
 # 
 
@@ -145,13 +141,13 @@ def make_single_field(pg_height, pg_width, title_height, title_width, dx, dy):
     return objects_list
     #
 
-def make_titleline(field_name, titleline_text, objects_list):
+def set_title(field_name, title_text, objects_list):
     """ set titleline title of a single field """
     #
     selectObject(field_name)
     unGroupObject(field_name)
     selectObject("title_1")
-    insertText(titleline_text, -1, "title_1")
+    insertText(title_text, -1, "title_1")
     deselectAll()
     tmp_name = groupObjects(objects_list)
     setNewName(field_name, tmp_name)
@@ -166,8 +162,8 @@ def main(argv):
     # make one single ToDo field:
     #
     pg_height, pg_width = getPageSize()   # page_height, page_width = 842.0 595.0  == obwohl horizontal dargestellt: Höhe > Breite !
-    title_height         = pg_width // 19
-    title_width          = ((pg_height // 4) * 93 ) // 100
+    title_height        = pg_width // 19
+    title_width         = ((pg_height // 4) * 93 ) // 100
     dx                  =  8
     dy                  = 12
     #
@@ -212,13 +208,12 @@ def main(argv):
     #
     setNewName("Field_1", 'Gruppe1')
     #
-    make_titleline(field_name="Field_1", titleline_text="  ToDo", objects_list = objects_list)
-    make_titleline(field_name="Field_3", titleline_text="  Faire les Courses", objects_list = objects_list)
-    make_titleline(field_name="Field_5", titleline_text="  Clara", objects_list = objects_list)
+    set_title(field_name="Field_1", title_text="  ToDo", objects_list = objects_list)
+    set_title(field_name="Field_3", title_text="  Faire les Courses", objects_list = objects_list)
+    set_title(field_name="Field_5", title_text="  Clara", objects_list = objects_list)
     #
     make_folding_lines(pg_height, pg_width)
     #
-
 
 
 def main_wrapper(argv):
@@ -242,6 +237,7 @@ def main_wrapper(argv):
 # This code detects if the script is being run as a script, or imported as a module.
 # It only runs main() if being run as a script. This permits you to import your script
 # and control it manually for debugging.
+
 
 if __name__ == '__main__':
     main_wrapper(sys.argv)
