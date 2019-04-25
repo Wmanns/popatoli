@@ -25,9 +25,6 @@
 # - it doesn't like void lines within functions => a void line has to be a comment.
 # - it doesn't like tabs (at least no mixture of tabs and spaces).
 #
-# ToDo:
-#       function to set text within body.
-# 
 
 import sys
 
@@ -60,15 +57,11 @@ def make_folding_lines(pg_height, pg_width):
     hrz_line_2 = createLine(x1, y1, x2, y2, 'hrz_line_2')
     setLineWidth(line_width, 'hrz_line_2')
     #
-    # marker = createText(x1, y1, 30, 30, 'marker')  # title
-    # setFont("Calibri Bold", marker)
-    # fontsize = 44
-    # setFontSize(fontsize, marker)
-    # insertText(r" H", -1, marker)
-    #
     x1, y1, x2, y2 = pg_height - (pg_height // 4) , 0, pg_height - (pg_height // 4) , pg_width
     hrz_line_3 = createLine(x1, y1, x2, y2, 'hrz_line_3')
     setLineWidth(line_width, 'hrz_line_3')
+    #
+    # vertical lines
     #
     x1, y1, x2, y2 = 0, pg_width // 2 , pg_height // 4, pg_width // 2
     vrt_line_1 = createLine(x1, y1, x2, y2, 'vrt_line_1')
@@ -276,8 +269,9 @@ def main(argv):
     #
     setNewName("Field_1", 'Gruppe1')
     #
-    set_title(field_name="Field_4", title_text="  ToDo", objects_list = objects_list)
     set_title(field_name="Field_1", title_text="  Faire les courses", objects_list = objects_list)
+    set_title(field_name="Field_4", title_text="  ToDo", objects_list = objects_list)
+    set_title(field_name="Field_7", title_text="  Praxis", objects_list = objects_list)
     set_title(field_name="Field_8", title_text="  Clara", objects_list = objects_list)
     #
     set_text(field_name="Field_5", body_text="  Rundsägeblatt", objects_list = objects_list)
