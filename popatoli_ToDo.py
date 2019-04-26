@@ -87,10 +87,8 @@ def set_Font(text_field):
     setFont("Calibri Bold", text_field)
     fontsize = 44
     setFontSize(fontsize, text_field)
-    #
+    
 def make_folding_markers(pg_height, pg_width):
-    #
-    # pg_height = pg_height - pg_height // 5
     #
     x1, y1 = pg_height // 2 , 5
     out_middle_marker = createText(x1, y1, 30, 30, 'out_middle_marker')  #
@@ -236,13 +234,27 @@ def add_text(field_name, body_text, objects_list):
     #
 
 
+def set_titles(objects_list):
+    set_title(field_name="Field_4", title_text="  ToDo", objects_list = objects_list)
+    set_title(field_name="Field_7", title_text="  Praxis", objects_list = objects_list)
+    set_title(field_name="Field_8", title_text="  Clara", objects_list = objects_list)
+
+
+def set_texts(objects_list):
+    set_text(field_name="Field_5", body_text="  Rundsägeblatt", objects_list = objects_list)
+    add_text(field_name="Field_5", body_text="  Halogenlampe 20 W G9 230 V", objects_list = objects_list)
+
+    
+def make_folding(pg_height, pg_width):
+    make_folding_lines(pg_height, pg_width)
+    make_folding_markers(pg_height, pg_width)
+
+
 def main(argv):
     """This is a documentation string. """
     if haveDoc():
         closeDoc()
     make_document()
-    #
-    # make one single ToDo field:
     #
     pg_height, pg_width = getPageSize()   # page_height, page_width = 842.0 595.0  == obwohl horizontal dargestellt: Höhe > Breite !
     title_height        = pg_width // 19
@@ -250,8 +262,10 @@ def main(argv):
     dx                  =  8
     dy                  = 12
     #
-    # objects_list = [title, title_line_1, body_1, bottom_line_horz, bottom_line_vert]
+    #
+    # make one single ToDo field:
     objects_list = make_single_field(pg_height, pg_width, title_height, title_width, dx, dy)
+    # objects_list = [title, title_line_1, body_1, bottom_line_horz, bottom_line_vert]
     #
     # Copy this object 7 times
     #
@@ -291,16 +305,11 @@ def main(argv):
     #
     setNewName("Field_1", 'Gruppe1')
     #
-    set_title(field_name="Field_1", title_text="  Faire les courses", objects_list = objects_list)
-    set_title(field_name="Field_4", title_text="  ToDo", objects_list = objects_list)
-    set_title(field_name="Field_7", title_text="  Praxis", objects_list = objects_list)
-    set_title(field_name="Field_8", title_text="  Clara", objects_list = objects_list)
+    set_titles(objects_list)
     #
-    set_text(field_name="Field_5", body_text="  Rundsägeblatt", objects_list = objects_list)
-    add_text(field_name="Field_5", body_text="  Halogenlampe 20 W G9 230 V", objects_list = objects_list)
+    set_texts(objects_list)
     #
-    make_folding_lines(pg_height, pg_width)
-    make_folding_markers(pg_height, pg_width)
+    make_folding(pg_height, pg_width)
     #
     scribus.messageBox("ok","everything ok.",scribus.ICON_WARNING,scribus.BUTTON_OK)
     #
