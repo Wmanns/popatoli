@@ -114,7 +114,7 @@ def make_folding_markers(pg_height, pg_width):
     set_Font(out_horz_marker)
     insertText(r"o", -1, out_horz_marker)
     #
-    tmp_name = groupObjects([out_middle_marker, in_left_marker, in_right_marker])
+    tmp_name = groupObjects([out_middle_marker, in_left_marker, in_right_marker, out_horz_marker])
     setNewName("Folding_markers", tmp_name)
     #
 
