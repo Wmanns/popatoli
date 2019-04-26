@@ -27,6 +27,7 @@
 #
 
 import sys
+import ConfigParser
 
 try:
     from scribus import *  # I know ...
@@ -81,17 +82,40 @@ def make_folding_lines(pg_height, pg_width):
     setNewName("Folding_lines", tmp_name)
     #
 
-def make_folding_marker(pg_height, pg_width):
+def set_Font(text_field):
+    #
+    setFont("Calibri Bold", text_field)
+    fontsize = 44
+    setFontSize(fontsize, text_field)
+    #
+def make_folding_markers(pg_height, pg_width):
+    #
+    # pg_height = pg_height - pg_height // 5
     #
     x1, y1 = pg_height // 2 , 0
-    folding_marker = createText(x1, y1, 30, 30, 'folding_marker')  # title
-    setFont("Calibri Bold", folding_marker)
-    fontsize = 44
-    setFontSize(fontsize, folding_marker)
-    insertText(r" H", -1, folding_marker)
+    out_middle_marker = createText(x1, y1, 30, 30, 'out_middle_marker')  #
+    set_Font(out_middle_marker)
+    insertText(r" o", -1, out_middle_marker)
     #
-    # tmp_name = groupObjects([folding_marker])
-    # setNewName("Folding_marker", tmp_name)
+    x1, y1 = (pg_height // 4), 0
+    in_left_marker = createText(x1, y1, 30, 30, 'in_left_marker')  #
+    set_Font(in_left_marker)
+    insertText(r" I", -1, in_left_marker)
+    #
+    x1, y1 = pg_height - (pg_height // 4), 0
+    in_right_marker = createText(x1, y1, 30, 30, 'in_right_marker')  #
+    set_Font(in_right_marker)
+    insertText(r" I", -1, in_right_marker)
+    #
+    x1, y1, x2, y2 = 0, pg_width // 2 , pg_height // 4, pg_width // 2
+    x1, y1 = 0, pg_width // 2
+    vrt_line_1 = createLine(x1, y1, x2, y2, 'vrt_line_1')
+    out_horz_marker = createText(x1, y1, 30, 30, 'out_horz_marker')  #
+    set_Font(out_horz_marker)
+    insertText(r"o", -1, out_horz_marker)
+    #
+    tmp_name = groupObjects([out_middle_marker, in_left_marker, in_right_marker])
+    setNewName("Folding_markers", tmp_name)
     #
 
 def make_single_field(pg_height, pg_width, title_height, title_width, dx, dy):
@@ -278,7 +302,7 @@ def main(argv):
     add_text(field_name="Field_5", body_text="  Halogenlampe 20 W G9 230 V", objects_list = objects_list)
     #
     make_folding_lines(pg_height, pg_width)
-    make_folding_marker(pg_height, pg_width)
+    make_folding_markers(pg_height, pg_width)
     #
     scribus.messageBox("ok","everything ok.",scribus.ICON_WARNING,scribus.BUTTON_OK)
     #
