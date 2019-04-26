@@ -92,27 +92,25 @@ def make_folding_markers(pg_height, pg_width):
     #
     # pg_height = pg_height - pg_height // 5
     #
-    x1, y1 = pg_height // 2 , 0
+    x1, y1 = pg_height // 2 , 5
     out_middle_marker = createText(x1, y1, 30, 30, 'out_middle_marker')  #
     set_Font(out_middle_marker)
     insertText(r" o", -1, out_middle_marker)
     #
-    x1, y1 = (pg_height // 4), 0
+    x1, y1 = (pg_height // 4), 10
     in_left_marker = createText(x1, y1, 30, 30, 'in_left_marker')  #
     set_Font(in_left_marker)
     insertText(r" I", -1, in_left_marker)
     #
-    x1, y1 = pg_height - (pg_height // 4), 0
+    x1, y1 = pg_height - (pg_height // 4), 10
     in_right_marker = createText(x1, y1, 30, 30, 'in_right_marker')  #
     set_Font(in_right_marker)
     insertText(r" I", -1, in_right_marker)
     #
-    x1, y1, x2, y2 = 0, pg_width // 2 , pg_height // 4, pg_width // 2
     x1, y1 = 0, pg_width // 2
-    vrt_line_1 = createLine(x1, y1, x2, y2, 'vrt_line_1')
     out_horz_marker = createText(x1, y1, 30, 30, 'out_horz_marker')  #
     set_Font(out_horz_marker)
-    insertText(r"o", -1, out_horz_marker)
+    insertText(r" o", -1, out_horz_marker)
     #
     tmp_name = groupObjects([out_middle_marker, in_left_marker, in_right_marker, out_horz_marker])
     setNewName("Folding_markers", tmp_name)
