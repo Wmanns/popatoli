@@ -87,7 +87,6 @@ def set_Font(text_field):
     fontsize = 44
     setFontSize(fontsize, text_field)
 
-
 def make_folding_markers(pg_height, pg_width):
     x1, y1 = pg_height // 2 , 5
     out_middle_marker = createText(x1, y1, 30, 30, 'out_middle_marker')  #
@@ -193,7 +192,6 @@ def clear_text(field_name, objects_list):
     setNewName(field_name, tmp_name)
     #
 
-
 def set_text(field_name, body_text, objects_list):
     """ set text of body of a single field """
     #
@@ -213,7 +211,6 @@ def set_text(field_name, body_text, objects_list):
     setNewName(field_name, tmp_name)
     #
 
-
 def add_text(field_name, body_text, objects_list):
     """ set text of body of a single field """
     #
@@ -231,7 +228,6 @@ def add_text(field_name, body_text, objects_list):
     setNewName(field_name, tmp_name)
     #
 
-
 def set_titles(objects_list):
     set_title(field_name="Field_4", title_text="  ToDo", objects_list = objects_list)
     set_title(field_name="Field_7", title_text="  Praxis", objects_list = objects_list)
@@ -244,7 +240,7 @@ def set_texts(objects_list):
     os. chdir(r"D:\\Data_Work\\Develop\\Scribus\\popatoli")
     parser = ConfigParser.SafeConfigParser()
     parser.read('popatoli.cfg')
-    print parser.get('Field_5', 'body')
+    #
     body_str = parser.get('Field_5', 'body')
     clear_text('Field_5', objects_list)
     for substr in body_str.splitlines():
