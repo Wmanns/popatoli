@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # https://github.com/Wmanns/popatoli
-
-
+#
 # popatoli_ToDo.py
 #
 # pocket-paper-ToDo-list aka 'popatoli'!
@@ -27,7 +26,8 @@
 #
 
 import sys
-import ConfigParser
+import os
+import ConfigParser  # https://pymotw.com/2/ConfigParser/index.html
 
 try:
     from scribus import *  # I know ...
@@ -83,13 +83,12 @@ def make_folding_lines(pg_height, pg_width):
     #
 
 def set_Font(text_field):
-    #
     setFont("Calibri Bold", text_field)
     fontsize = 44
     setFontSize(fontsize, text_field)
-    
+
+
 def make_folding_markers(pg_height, pg_width):
-    #
     x1, y1 = pg_height // 2 , 5
     out_middle_marker = createText(x1, y1, 30, 30, 'out_middle_marker')  #
     set_Font(out_middle_marker)
@@ -150,7 +149,6 @@ def make_single_field(pg_height, pg_width, title_height, title_width, dx, dy):
     #
     insertText(r"· ", -1, body)
     for i in range(8):
-        # insertText("\n· " + str (i+2), -1, body)
         insertText("\n· ", -1, body)
     #
     # Text - Body - Corner
@@ -174,7 +172,7 @@ def make_single_field(pg_height, pg_width, title_height, title_width, dx, dy):
     #
 
 def set_title(field_name, title_text, objects_list):
-    """ set title title of a single field """
+    """ set title of a single field """
     #
     selectObject(field_name)
     unGroupObject(field_name)
@@ -185,8 +183,19 @@ def set_title(field_name, title_text, objects_list):
     setNewName(field_name, tmp_name)
     #
 
+def clear_text(field_name, objects_list):
+    """ clears text of body of a single field """
+    selectObject(field_name)
+    unGroupObject(field_name)
+    deleteText("body")
+    deselectAll()
+    tmp_name = groupObjects(objects_list)
+    setNewName(field_name, tmp_name)
+    #
+
+
 def set_text(field_name, body_text, objects_list):
-    """ set title title of a single field """
+    """ set text of body of a single field """
     #
     selectObject(field_name)
     unGroupObject(field_name)
@@ -198,35 +207,24 @@ def set_text(field_name, body_text, objects_list):
     setFontSize(font_size, "body")
     setLineSpacing(font_size, "body")
     #
-    # insert text
-    # insertText(r"· ", -1, body)
-    # for i in range(8):
-    #     # insertText("\n· " + str (i+2), -1, body)
-    #     insertText("\n· ", -1, body)
-
     insertText("\n· " + body_text, -1, "body")
     deselectAll()
     tmp_name = groupObjects(objects_list)
     setNewName(field_name, tmp_name)
     #
 
+
 def add_text(field_name, body_text, objects_list):
-    """ set title title of a single field """
+    """ set text of body of a single field """
     #
     selectObject(field_name)
     unGroupObject(field_name)
     #
-    # setFont("Calibri Bold", "body")
-    # font_size = 48
-    # setFontSize(font_size, "body")
-    # setLineSpacing(font_size, "body")
+    setFont("Calibri Bold", "body")
+    font_size = 40
+    setFontSize(font_size, "body")
+    setLineSpacing(font_size, "body")
     #
-    # insert text
-    # insertText(r"· ", -1, body)
-    # for i in range(8):
-    #     # insertText("\n· " + str (i+2), -1, body)
-    #     insertText("\n· ", -1, body)
-    
     insertText("\n· " + body_text, -1, "body")
     deselectAll()
     tmp_name = groupObjects(objects_list)
@@ -243,8 +241,16 @@ def set_titles(objects_list):
 def set_texts(objects_list):
     set_text(field_name="Field_5", body_text="  Rundsägeblatt", objects_list = objects_list)
     add_text(field_name="Field_5", body_text="  Halogenlampe 20 W G9 230 V", objects_list = objects_list)
+    os. chdir(r"D:\\Data_Work\\Develop\\Scribus\\popatoli")
+    parser = ConfigParser.SafeConfigParser()
+    parser.read('popatoli.cfg')
+    print parser.get('Field_5', 'body')
+    body_str = parser.get('Field_5', 'body')
+    clear_text('Field_5', objects_list)
+    for substr in body_str.splitlines():
+        add_text('Field_5', substr, objects_list)
 
-    
+
 def make_folding(pg_height, pg_width):
     make_folding_lines(pg_height, pg_width)
     make_folding_markers(pg_height, pg_width)
@@ -256,12 +262,12 @@ def main(argv):
         closeDoc()
     make_document()
     #
-    pg_height, pg_width = getPageSize()   # page_height, page_width = 842.0 595.0  == obwohl horizontal dargestellt: Höhe > Breite !
-    title_height        = pg_width // 19
-    title_width         = ((pg_height // 4) * 93 ) // 100
-    dx                  =  8
-    dy                  = 12
-    #
+    # page_height, page_width = 842.0 595.0  == obwohl horizontal dargestellt: Höhe > Breite !
+    pg_height, pg_width = getPageSize()
+    title_height = pg_width // 19
+    title_width  = ((pg_height // 4) * 93 ) // 100
+    dx =  8
+    dy = 12
     #
     # make one single ToDo field:
     objects_list = make_single_field(pg_height, pg_width, title_height, title_width, dx, dy)
