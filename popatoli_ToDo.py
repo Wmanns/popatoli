@@ -14,13 +14,12 @@
 #
 # Works with:
 #    Scribus 1.5.4
-#    Language German (!)
 #
 # Parts of this program from scribus documentation
 #
 # License cc-by-sa-4.0
 #
-# Scribus has obviously some pecularities:
+# Scribus has obviously some pecularities when executing Python scrips - at least when executing the script in the terminal:
 # - it doesn't like void lines within functions => a void line has to be a comment.
 # - it doesn't like tabs (at least no mixture of tabs and spaces).
 #
@@ -40,7 +39,7 @@ except ImportError,err:
 paper_format = PAPER_A4
 
 def make_document():
-#   play arround with margins to fit page to your printer ...
+    #   play arround with margins to fit page to your printer ...
     newDocument(PAPER_A4, (4.111, 4.111, 4.111, 4.111), LANDSCAPE, 1, UNIT_MILLIMETERS, PAGE_1, 0, 1)
     setInfo("author", "popatoli", "pocket-paper-ToDo-list")
     lr, rr, tr, br = 0.0, 0.0, 0.0, 0.0
@@ -233,11 +232,12 @@ def set_titles(objects_list):
     set_title(field_name="Field_7", title_text="  Praxis", objects_list = objects_list)
     set_title(field_name="Field_8", title_text="  Clara", objects_list = objects_list)
 
-
 def set_texts(objects_list):
-    set_text(field_name="Field_5", body_text="  Rundsägeblatt", objects_list = objects_list)
-    add_text(field_name="Field_5", body_text="  Halogenlampe 20 W G9 230 V", objects_list = objects_list)
-    os. chdir(r"D:\\Data_Work\\Develop\\Scribus\\popatoli")
+    #clear_text('Field_5', objects_list)
+    #add_text(field_name="Field_5", body_text="!  Rundsägeblatt", objects_list = objects_list)
+    #add_text(field_name="Field_5", body_text="!  Halogenlampe 20 W G9 230 V", objects_list = objects_list)
+    #
+    os.chdir(r"D:\\Data_Work\\Develop\\Scribus\\popatoli")
     parser = ConfigParser.SafeConfigParser()
     parser.read('popatoli.cfg')
     #
@@ -245,7 +245,7 @@ def set_texts(objects_list):
     clear_text('Field_5', objects_list)
     for substr in body_str.splitlines():
         add_text('Field_5', substr, objects_list)
-
+        pass
 
 def make_folding(pg_height, pg_width):
     make_folding_lines(pg_height, pg_width)
@@ -271,8 +271,10 @@ def main(argv):
     #
     # Copy this object 7 times
     #
-    groupObjects(objects_list)
-    selectObject('Gruppe1')
+    tmp_name = groupObjects(objects_list)
+    setNewName("Field_1", tmp_name)
+    #
+    selectObject('Field_1')
     #
     duplicateObject()
     moveObject((pg_height // 4), 0)
@@ -286,8 +288,8 @@ def main(argv):
     moveObject((pg_height // 4), 0)
     setNewName("Field_4")
     #
-    selectObject('Gruppe1')
-    duplicateObject('Gruppe1')
+    selectObject('Field_1')
+    duplicateObject('Field_1')
     rotateObject(180.0)
     moveObject(title_width, 0)
     moveObject(0, -3 * dx)
@@ -305,7 +307,7 @@ def main(argv):
     moveObject((pg_height // 4), 0)
     setNewName("Field_8")
     #
-    setNewName("Field_1", 'Gruppe1')
+    setNewName("Field_1", 'Field_1')
     #
     set_titles(objects_list)
     #
@@ -313,7 +315,7 @@ def main(argv):
     #
     make_folding(pg_height, pg_width)
     #
-    scribus.messageBox("ok","everything ok.",scribus.ICON_WARNING,scribus.BUTTON_OK)
+    # scribus.messageBox("ok","everything ok.",scribus.ICON_WARNING,scribus.BUTTON_OK)
     #
 
 
