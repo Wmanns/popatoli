@@ -38,6 +38,10 @@ except ImportError,err:
 # change to {PAPER_A0 | ... | PAPER_B0 ... | PAPER_C5E | PAPER_EXECUTIVE | PAPER_FOLIO | PAPER_LEDGER | PAPER_LEGAL | PAPER_LETTER | PAPER_TABLOID}
 paper_format = PAPER_A4
 
+# Path of text file to import; default is the 'document' path in scribus
+# (Scribus vs 1.5.4: File > Preferences > Paths > Documents:'
+popatoli_txt_file_path = r"__popatoli_include_text.txt"
+
 def make_document():
     #   play arround with margins to fit page to your printer ...
     newDocument(PAPER_A4, (4.111, 4.111, 4.111, 4.111), LANDSCAPE, 1, UNIT_MILLIMETERS, PAGE_1, 0, 1)
@@ -237,9 +241,14 @@ def set_texts(objects_list):
     #add_text(field_name="Field_5", body_text="!  Rundsägeblatt", objects_list = objects_list)
     #add_text(field_name="Field_5", body_text="!  Halogenlampe 20 W G9 230 V", objects_list = objects_list)
     #
-    os.chdir(r"D:\\Data_Work\\Develop\\Scribus\\popatoli")
     parser = ConfigParser.SafeConfigParser()
-    parser.read('popatoli.cfg')
+    exists = os.path.isfile(popatoli_txt_file_path)
+    if not exists:
+        scribus.messageBox("File does not exist!", popatoli_txt_file_path,scribus.ICON_WARNING,scribus.BUTTON_OK)
+        # Store configuration file values
+    # else:
+        # Keep presets
+    parser.read(popatoli_txt_file_path)
     #
     body_str = parser.get('Field_5', 'body')
     clear_text('Field_5', objects_list)
