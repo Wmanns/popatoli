@@ -62,11 +62,11 @@ def make_document():
 def make_regex_field():
     # thank you: http://txt2re.com/  !
     txt='Field_5'
-    
+    #
     re1='(Field)'	# Word 1
     re2='(_)'	# Any Single Character 1
     re3='(\\d)'	# Any Single Digit 1
-    
+    #
     rgx = re.compile(re1+re2+re3,re.IGNORECASE|re.DOTALL)
     m = rgx.search(txt)
     if m:
@@ -122,6 +122,7 @@ def set_Font(text_field):
     fontsize = 44
     setFontSize(fontsize, text_field)
 
+
 def make_folding_markers(pg_height, pg_width):
     x1, y1 = pg_height // 2 , 5
     out_middle_marker = createText(x1, y1, 30, 30, 'out_middle_marker')  #
@@ -146,6 +147,7 @@ def make_folding_markers(pg_height, pg_width):
     tmp_name = groupObjects([out_middle_marker, in_left_marker, in_right_marker, out_horz_marker])
     setNewName("Folding_markers", tmp_name)
     #
+
 
 def make_single_field(pg_height, pg_width, title_height, title_width, dx, dy):
     """ Each popatoli is made by 8 ToDo-fields; this function makes one of them.
@@ -205,10 +207,6 @@ def make_single_field(pg_height, pg_width, title_height, title_width, dx, dy):
     return objects_list
     #
 
-def SelectAllText(textframe):
-    texlen = scribus.getTextLength(textframe)
-    scribus.selectText(0,texlen,textframe)
-    return
 
 def set_title(field_name, title_text, objects_list):
     """ set title of a single field """
@@ -243,24 +241,6 @@ def clear_text(field_name, objects_list):
     setNewName(field_name, tmp_name)
     #
 
-def set_text(field_name, body_text, objects_list):
-    """ set text of body of a single field """
-    #
-    selectObject(field_name)
-    unGroupObject(field_name)
-    #selectObject("body")
-    deleteText("body")
-    #
-    setFont("Calibri Bold", "body")
-    font_size = 40
-    setFontSize(font_size, "body")
-    setLineSpacing(font_size, "body")
-    #
-    insertText("\n· " + body_text, -1, "body")
-    deselectAll()
-    tmp_name = groupObjects(objects_list)
-    setNewName(field_name, tmp_name)
-    #
 
 def add_text(field_name, body_text, objects_list, font_size = 40):
     """ set text of body of a single field """
@@ -278,29 +258,6 @@ def add_text(field_name, body_text, objects_list, font_size = 40):
     tmp_name = groupObjects(objects_list)
     setNewName(field_name, tmp_name)
     #
-
-def set_texts(objects_list):
-    #
-    parser = ConfigParser.SafeConfigParser()
-    exists = os.path.isfile(popatoli_txt_file_path)
-    if not exists:
-        scribus.messageBox("Include text file does not exist!", popatoli_txt_file_path,scribus.ICON_WARNING,scribus.BUTTON_OK)
-        return
-    parser.read(popatoli_txt_file_path)
-    #
-    field = 'Field_5'
-    body_str = parser.get(field, 'body')
-    clear_text(field, objects_list)
-    for substr in body_str.splitlines():
-        add_text(field, substr, objects_list, font_size = 33)
-        pass
-    #
-    field = 'Field_6'
-    body_str = parser.get(field, 'body')
-    clear_text(field, objects_list)
-    for substr in body_str.splitlines():
-        add_text(field, substr, objects_list, font_size = 33)
-        pass
 
 
 def process_text_config(objects_list):
@@ -320,8 +277,8 @@ def process_text_config(objects_list):
                 if item_name == 'title':
                     set_title(field_name=field_name, title_text=item_value, objects_list = objects_list)
                 if item_name == 'body':
-                    body_str = item_value
                     clear_text(field_name, objects_list)
+                    body_str = item_value
                     for substr in body_str.splitlines():
                         add_text(field_name, substr, objects_list, font_size = 33)
 
