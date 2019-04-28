@@ -27,6 +27,8 @@
 import sys
 import os
 import ConfigParser  # https://pymotw.com/2/ConfigParser/index.html
+import re
+
 
 try:
     from scribus import *  # I know ...
@@ -41,6 +43,7 @@ paper_format = PAPER_A4
 # Path of text file to import; default is the 'document' path in scribus
 # (Scribus vs 1.5.4: File > Preferences > Paths > Documents:'
 popatoli_txt_file_path = r"__popatoli_include_text.txt"
+popatoli_txt_file_path = os.path.normpath(popatoli_txt_file_path)
 
 def make_document():
     #   play arround with margins to fit page to your printer ...
@@ -48,7 +51,36 @@ def make_document():
     setInfo("author", "popatoli", "pocket-paper-ToDo-list")
     lr, rr, tr, br = 0.0, 0.0, 0.0, 0.0
     setMargins(lr, rr, tr, br)
+    x, y, width, height = 0, 0, 842.000, 595.000
+    page_rect = createRect(x, y, width, height, "page_rect")
+    LineWidth = 1
+    setLineWidth(LineWidth, page_rect )
+    setLineStyle(LINE_DOT, 'page_rect')
     zoomDocument(-100.0)
+
+
+def make_regex_field():
+    # thank you: http://txt2re.com/  !
+    txt='Field_5'
+    
+    re1='(Field)'	# Word 1
+    re2='(_)'	# Any Single Character 1
+    re3='(\\d)'	# Any Single Digit 1
+    
+    rgx = re.compile(re1+re2+re3,re.IGNORECASE|re.DOTALL)
+    m = rgx.search(txt)
+    if m:
+        word1=m.group(1)
+        c1=m.group(2)
+        d1=m.group(3)
+        # print "("+word1+")"+"("+c1+")"+"("+d1+")"+"\n"
+    return rgx
+
+# def make_ParagraphStyle_tiny():
+#     fontsize = 10
+#     createCharStyle("CharStyle_tiny","Calibri Bold",fontsize)
+#     createParagraphStyle("ParagraphStyle_tiny",0,7.0,1,0,0,0,0,0,0,0,0, "CharStyle_tiny")
+
 
 def make_folding_lines(pg_height, pg_width):
     line_width = 4
@@ -130,7 +162,7 @@ def make_single_field(pg_height, pg_width, title_height, title_width, dx, dy):
     setFont("Calibri Bold", title)
     font_size = 66
     setFontSize(font_size, title)
-    # Underline Text - Head
+    # Line below
     title_line = createLine(x + 2, y  + title_height - dy, x - 2 + title_width, y + title_height - dy, 'title_line')  # title_line
     setLineWidth(8, title_line)
     setLineCap(CAP_ROUND, title_line)
@@ -173,13 +205,29 @@ def make_single_field(pg_height, pg_width, title_height, title_width, dx, dy):
     return objects_list
     #
 
+def SelectAllText(textframe):
+    texlen = scribus.getTextLength(textframe)
+    scribus.selectText(0,texlen,textframe)
+    return
+
 def set_title(field_name, title_text, objects_list):
     """ set title of a single field """
     #
     selectObject(field_name)
     unGroupObject(field_name)
+    #
     selectObject("title")
-    insertText(title_text, -1, "title")
+    #
+    field_number = field_name[-1:]
+    insertText(str(field_number), -1, "title")
+    #
+    font_size = 66
+    setFontSize(font_size, "title")
+    insertText('   ' + title_text, -1, "title")
+    #
+    selectText(0, 1, "title")
+    setFontSize(14.0, "title")
+    #
     deselectAll()
     tmp_name = groupObjects(objects_list)
     setNewName(field_name, tmp_name)
@@ -214,7 +262,7 @@ def set_text(field_name, body_text, objects_list):
     setNewName(field_name, tmp_name)
     #
 
-def add_text(field_name, body_text, objects_list):
+def add_text(field_name, body_text, objects_list, font_size = 40):
     """ set text of body of a single field """
     #
     selectObject(field_name)
@@ -231,32 +279,54 @@ def add_text(field_name, body_text, objects_list):
     setNewName(field_name, tmp_name)
     #
 
-def set_titles(objects_list):
-    set_title(field_name="Field_4", title_text="  ToDo", objects_list = objects_list)
-    set_title(field_name="Field_7", title_text="  Praxis", objects_list = objects_list)
-    set_title(field_name="Field_8", title_text="  Clara", objects_list = objects_list)
-
 def set_texts(objects_list):
-    #clear_text('Field_5', objects_list)
-    #add_text(field_name="Field_5", body_text="!  Rundsägeblatt", objects_list = objects_list)
-    #add_text(field_name="Field_5", body_text="!  Halogenlampe 20 W G9 230 V", objects_list = objects_list)
     #
     parser = ConfigParser.SafeConfigParser()
     exists = os.path.isfile(popatoli_txt_file_path)
     if not exists:
-        scribus.messageBox("File does not exist!", popatoli_txt_file_path,scribus.ICON_WARNING,scribus.BUTTON_OK)
-        # Store configuration file values
-    # else:
-        # Keep presets
+        scribus.messageBox("Include text file does not exist!", popatoli_txt_file_path,scribus.ICON_WARNING,scribus.BUTTON_OK)
+        return
     parser.read(popatoli_txt_file_path)
     #
-    body_str = parser.get('Field_5', 'body')
-    clear_text('Field_5', objects_list)
+    field = 'Field_5'
+    body_str = parser.get(field, 'body')
+    clear_text(field, objects_list)
     for substr in body_str.splitlines():
-        add_text('Field_5', substr, objects_list)
+        add_text(field, substr, objects_list, font_size = 33)
+        pass
+    #
+    field = 'Field_6'
+    body_str = parser.get(field, 'body')
+    clear_text(field, objects_list)
+    for substr in body_str.splitlines():
+        add_text(field, substr, objects_list, font_size = 33)
         pass
 
-def make_folding(pg_height, pg_width):
+
+def process_text_config(objects_list):
+    #
+    parser = ConfigParser.SafeConfigParser()
+    exists = os.path.isfile(popatoli_txt_file_path)
+    if not exists:
+        scribus.messageBox("Include text file does not exist!", popatoli_txt_file_path,scribus.ICON_WARNING,scribus.BUTTON_OK)
+        return
+    parser.read(popatoli_txt_file_path)
+    #
+    rgx_field = make_regex_field()
+    #
+    for field_name in parser.sections():
+        if rgx_field.search(field_name):
+            for item_name, item_value in parser.items(field_name):
+                if item_name == 'title':
+                    set_title(field_name=field_name, title_text=item_value, objects_list = objects_list)
+                if item_name == 'body':
+                    body_str = item_value
+                    clear_text(field_name, objects_list)
+                    for substr in body_str.splitlines():
+                        add_text(field_name, substr, objects_list, font_size = 33)
+
+
+def make_folding_lines_and_markers(pg_height, pg_width):
     make_folding_lines(pg_height, pg_width)
     make_folding_markers(pg_height, pg_width)
 
@@ -318,11 +388,9 @@ def main(argv):
     #
     setNewName("Field_1", 'Field_1')
     #
-    set_titles(objects_list)
+    process_text_config(objects_list)
     #
-    set_texts(objects_list)
-    #
-    make_folding(pg_height, pg_width)
+    make_folding_lines_and_markers(pg_height, pg_width)
     #
     # scribus.messageBox("ok","everything ok.",scribus.ICON_WARNING,scribus.BUTTON_OK)
     #
