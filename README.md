@@ -4,17 +4,17 @@ This python script can be used with Scribus to make a simple foldable ToDo list 
 Unfortunately this script needs Scribus to run in german language.
 
 ### How to modify titles and items?
-&nbsp; &nbspChange title and body in >__popatoli_include_text.txt<
+&nbsp;&nbsp;Change title and body in >__popatoli_include_text.txt<
 
 
 ### How to create a foldable ToDo list?
-&nbsp; &nbspStart Scribus (german edition)
-&nbsp; &nbspClick 'Scripter > Script ausführen ...' 
-&nbsp; &nbspSelect directory 
-&nbsp; &nbspExecute >popatoli_ToDo.py<
+&nbsp;&nbsp;Start Scribus (german edition)
+&nbsp;&nbsp;Click 'Scripter > Script ausführen ...' 
+&nbsp;&nbsp;Select directory 
+&nbsp;&nbsp;Execute >popatoli_ToDo.py<
 
 ### How to fold? 
-&nbsp; &nbspSearch for 'List Booklet Printer'.
+&nbsp;&nbsp;Search for 'List Booklet Printer'.
 
 
 No garanty
