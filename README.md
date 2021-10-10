@@ -1,7 +1,8 @@
-# popatoli or papotoli  == foldable ToDo list created by Scribus
+# popatoli or papotoli == foldable ToDo list 
 Pocket Paper ToDo List * Paper Pocket ToDo List
 
 This python script can be used with Scribus to make a simple foldable ToDo list for your pocket.
+
 Unfortunately this script needs Scribus to run in german language.
 
 ### How to modify titles and items?
