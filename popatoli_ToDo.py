@@ -268,6 +268,10 @@ def process_text_config(objects_list):
     if not exists:
         scribus.messageBox("Include text file does not exist!", popatoli_txt_file_path,scribus.ICON_WARNING,scribus.BUTTON_OK)
         return
+    else:
+        mssge = "Input text file: >" + popatoli_txt_file_path + "<"
+        scribus.messageBox(mssge, popatoli_txt_file_path,scribus.ICON_WARNING,scribus.BUTTON_OK)
+    
     # ... try to read it:
     parser.read(popatoli_txt_file_path)
     # simply: "Field_" followed by single number.
