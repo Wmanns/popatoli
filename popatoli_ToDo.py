@@ -261,22 +261,24 @@ def add_text(field_name, body_text, objects_list, font_size = 40):
 
 
 def process_text_config(objects_list):
-    #
+    # >parser< is a parser for *.cfg files (files in config format)
     parser = ConfigParser.SafeConfigParser()
+    # >popatoli_txt_file_path< is the name of a cfg file. Does it exist?
     exists = os.path.isfile(popatoli_txt_file_path)
     if not exists:
         scribus.messageBox("Include text file does not exist!", popatoli_txt_file_path,scribus.ICON_WARNING,scribus.BUTTON_OK)
         return
+    # ... try to read it:
     parser.read(popatoli_txt_file_path)
-    #
+    # simply: "Field_" followed by single number.
     rgx_field = make_regex_field()
-    #
+    # search for section named 'Field_1' ... 'Field_8'
     for field_name in parser.sections():
-        if rgx_field.search(field_name):
+        if rgx_field.search(field_name):    # [Field_n]
             for item_name, item_value in parser.items(field_name):
-                if item_name == 'title':
+                if item_name == 'title':    # 'title ='
                     set_title(field_name=field_name, title_text=item_value, objects_list = objects_list)
-                if item_name == 'body':
+                if item_name == 'body':     # 'body ='
                     clear_text(field_name, objects_list)
                     body_str = item_value
                     for substr in body_str.splitlines():

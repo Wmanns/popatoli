@@ -1,0 +1,44 @@
+[Field_1]
+title = Faire les courses
+
+[Field_2]
+title = 
+
+[Field_3]
+title = Praxis
+
+[Field_4]
+title = ToDo
+
+[Field_5]
+title = Baumarkt
+body = Bohnerwachs
+ ...
+
+[Field_6]
+title = Plaisir
+body = Neue Pinakothek, 
+ Residenz, Schackgalerie;
+ Filmmuseum,
+ ARRI Kino, Oper, 
+ Marionettentheater,
+  ... im Stadtmuseum, 
+ TamS, Theater Pasing,
+ Kammerspiele, Cuvilliés;
+ Seebergkopf,
+ Wettenhausen (Engerl),
+ Keferloh 1. Sonntag im Monat;
+ Weg: Tutzing → Andechs
+ 
+ 
+[Field_7]
+title = 
+
+[Field_8]
+title = Clara
+body = Butter, Joghurt, Wurst, Käse
+ Salate, Marmelade
+ Milch, Apfelsaft, Kaffee
+ Kuchen, Hefegebäck, Pralinen
+ Taschentücher
+ DIE ZEIT !
